@@ -41,13 +41,24 @@ annotation class ThemePreviews
 annotation class CombinedPreviews
 
 @Composable
-inline fun ComposePlaygroundPreview(crossinline block: @Composable () -> Unit) {
+inline fun ComposePlaygroundScreenPreview(
+    crossinline block: @Composable () -> Unit
+) {
+    ComposePlaygroundPreview(
+        Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(), block)
+}
+
+@Composable
+inline fun ComposePlaygroundPreview(
+    modifier: Modifier = Modifier,
+    crossinline block: @Composable () -> Unit
+) {
     ComposePlaygroundTheme {
         Surface(
             color = MaterialTheme.colorScheme.background,
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
+            modifier = modifier
         ) { block() }
     }
 }

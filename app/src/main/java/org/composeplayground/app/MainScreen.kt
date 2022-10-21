@@ -1,14 +1,13 @@
 package org.composeplayground.app
 
-import androidx.compose.foundation.background
+import android.annotation.SuppressLint
+import android.widget.TextView
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -19,13 +18,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.composeplayground.app.element.ItemRow
 import org.composeplayground.app.theme.CombinedPreviews
-import org.composeplayground.app.theme.ComposePlaygroundPreview
+import org.composeplayground.app.theme.ComposePlaygroundScreenPreview
 import org.composeplayground.app.theme.spacing
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -35,6 +34,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
     MainScreen(mainState, viewModel::load)
 }
 
+@SuppressLint("SetTextI18n")
 @Composable
 fun MainScreen(state: MainState, onClick: () -> Unit) {
     when (state) {
@@ -44,22 +44,11 @@ fun MainScreen(state: MainState, onClick: () -> Unit) {
                 verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
             ) {
                 items(state.items, { it.title }) { item ->
-                    Row(
+                    ItemRow(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .background(Color(item.color))
-                                .size(80.dp)
-                        )
-                        Text(
-                            text = item.title,
-                            style = MaterialTheme.typography.titleLarge,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                    }
+                        color = item.color,
+                        title = item.title
+                    )
                 }
             }
         }
@@ -81,6 +70,13 @@ fun MainScreen(state: MainState, onClick: () -> Unit) {
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.headlineLarge
             )
+            AndroidView(
+                factory = { context ->
+                    TextView(context).apply {
+                        text = "XML TextView"
+                    }
+                }
+            )
             Button(
                 modifier = Modifier.padding(top = MaterialTheme.spacing.small),
                 onClick = onClick
@@ -94,7 +90,7 @@ fun MainScreen(state: MainState, onClick: () -> Unit) {
 @CombinedPreviews
 @Composable
 fun MainScreenPreview() {
-    ComposePlaygroundPreview {
+    ComposePlaygroundScreenPreview {
         MainScreen(MainState.Welcome) {}
     }
 }
@@ -102,7 +98,7 @@ fun MainScreenPreview() {
 @CombinedPreviews
 @Composable
 fun MainScreenLoading() {
-    ComposePlaygroundPreview {
+    ComposePlaygroundScreenPreview {
         MainScreen(MainState.Loading) {}
     }
 }
@@ -110,7 +106,7 @@ fun MainScreenLoading() {
 @CombinedPreviews
 @Composable
 fun MainScreenContent() {
-    ComposePlaygroundPreview {
+    ComposePlaygroundScreenPreview {
         MainScreen(
             MainState.Items(
                 listOf(

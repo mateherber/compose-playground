@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -68,7 +69,8 @@ fun MainScreen(state: MainState, onClick: () -> Unit) {
             Text(
                 text = "Hello Compose",
                 color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.headlineLarge
+                style = MaterialTheme.typography.headlineLarge,
+                textAlign = TextAlign.Center
             )
             AndroidView(
                 factory = { context ->

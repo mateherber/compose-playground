@@ -8,6 +8,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Device
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 
 @Preview(
@@ -21,6 +23,13 @@ import androidx.compose.ui.tooling.preview.Preview
     fontScale = 1.5f
 )
 annotation class FontScalePreviews
+
+@Preview(
+    name = "small device",
+    group = "phone sizes",
+    device = "spec:id=reference_phone,shape=Normal,width=206,height=446,unit=dp,dpi=420"
+)
+annotation class DensityPreviews
 
 @Preview(
     name = "dark theme",
@@ -38,6 +47,7 @@ annotation class ThemePreviews
 
 @ThemePreviews
 @FontScalePreviews
+@DensityPreviews
 annotation class CombinedPreviews
 
 @Composable
